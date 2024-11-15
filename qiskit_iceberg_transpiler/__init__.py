@@ -1,11 +1,9 @@
-from .code import (
+from .util import get_good_counts, has_error, z_stabilizer
+from .gates import (
     Initialization,
     LogicalMeasurement,
     Syndrome,
     SyndromeMeasurement,
-    has_error,
-    z_stabilizer,
-    get_good_counts,
 )
 from .transpiler import (
     IcebergSetup,
@@ -16,14 +14,16 @@ from .transpiler import (
 )
 
 __all__ = [
-    "get_iceberg_passmanager",
-    "InsertSyndromes",
-    "PhysicalSynthesis",
-    "IcebergSetup",
-    "Initialization",
-    "LogicalMeasurement",
-    "SyndromeMeasurement",
+    "get_good_counts",
     "has_error",
     "z_stabilizer",
+    "Initialization",
+    "LogicalMeasurement",
+    "Syndrome",
+    "SyndromeMeasurement",
+    "IcebergSetup",
+    "InsertSyndromes",
+    "PhysicalSynthesis",
+    "get_iceberg_passmanager",
     "transpile",
 ]

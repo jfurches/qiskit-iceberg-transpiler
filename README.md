@@ -72,3 +72,13 @@ qc.measure(k, cl_k)
 ```
 
 See more in the [examples](./examples/getting-started.ipynb).
+
+## Todo
+
+[ ] Make it work as a qiskit transpiler plugin
+
+[ ] Add more tests
+
+[ ] Simulate with noisy models
+
+[ ] Replicate QV tests from [1]

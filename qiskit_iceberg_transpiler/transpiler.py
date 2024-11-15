@@ -16,7 +16,7 @@ from qiskit.transpiler import PassManager
 from qiskit.transpiler.basepasses import TransformationPass
 from qiskit.transpiler.passes import BasisTranslator
 
-from .code import Initialization, LogicalMeasurement, SyndromeMeasurement, Syndrome
+from .gates import Initialization, LogicalMeasurement, SyndromeMeasurement, Syndrome
 
 
 class PhysicalSynthesis(TransformationPass):

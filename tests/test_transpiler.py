@@ -1,9 +1,13 @@
-from qiskit_iceberg_transpiler import transpile, get_iceberg_passmanager
-from qiskit import QuantumCircuit
-
 import pytest
+from qiskit import QuantumCircuit
+from qiskit_aer.primitives import SamplerV2 as Sampler
+from scipy import stats
+from qiskit import generate_preset_pass_manager
+from qiskit.transpiler import StagedPassManager
+from qiskit_aer import AerSimulator
 
-from qiskit_iceberg_transpiler.code import Syndrome
+from qiskit_iceberg_transpiler import Syndrome, get_iceberg_passmanager
+from qiskit_iceberg_transpiler.util import get_good_counts
 
 
 @pytest.fixture(scope="module")
@@ -15,6 +19,16 @@ def ghz_circuit():
     qc.cx(2, 3)
     qc.measure_all()
     return qc
+
+
+def aer_passmanager(**kwargs):
+    return StagedPassManager(
+        ["iceberg", "transpile"],
+        iceberg=get_iceberg_passmanager(**kwargs, use_error_var=False),
+        transpile=generate_preset_pass_manager(
+            optimization_level=3, backend=AerSimulator()
+        ),
+    )
 
 
 class TestTranspiler:
@@ -46,3 +60,22 @@ class TestTranspiler:
 
         assert pm.property_set["syndrome_measurements"] == 1
         assert physical_circuit.count_ops().get("SyndromeMeasurement", 0) == 1
+
+
+class TestCircuits:
+    def test_noiseless(self, ghz_circuit):
+        physical_circuit = aer_passmanager(syndrome_checks=1).run(ghz_circuit)
+
+        sampler = Sampler(default_shots=1024)
+        result = sampler.run([physical_circuit]).result()[0]
+        counts = get_good_counts(result)
+
+        # Check no samples errored, and that we get the proper ghz state
+        assert sum(counts.values()) == 1024
+        assert counts["0000"] != 0
+        assert counts["1111"] != 0
+        assert counts["0000"] + counts["1111"] == 1024
+
+        # Check for statistical deviations from the state
+        res = stats.chisquare(list(counts.values()))
+        assert res.pvalue > 0.05
