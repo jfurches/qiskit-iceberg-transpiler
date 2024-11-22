@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "qiskit-iceberg-transpiler"
-version = "0.1.1"
+version = "0.2.0"
 description = "Qiskit transpiler to convert logical circuits to physical circuits using the [[k+2, k, 2]] Iceberg code"
 authors = ["Jim Furches <jfurches@gatech.edu>"]
 readme = "README.md"
