@@ -17,6 +17,7 @@ pytest = "^8.3.3"
 qiskit-aer = "^0.15.1"
 scipy = "^1.14.1"
 black = "^24.10.0"
+pytest-rerunfailures = "^15.0"
 
 [build-system]
 requires = ["poetry-core"]

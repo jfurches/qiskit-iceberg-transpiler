@@ -110,12 +110,6 @@ class InsertSyndromes(TransformationPass):
 
         # Assume the entire circuit is logical operations
         else:
-            if syndrome_positions is None:
-                warnings.warn(
-                    "No syndrome measurements found in circuit, and transpiler is not allowed to add syndromes",
-                    UserWarning,
-                )
-
             logical_qubits = dag.qubits
 
         # Save data for next pass
