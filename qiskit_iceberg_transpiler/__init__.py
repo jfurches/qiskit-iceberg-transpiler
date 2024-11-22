@@ -1,4 +1,11 @@
-from .util import get_good_counts, has_error, z_stabilizer
+from .util import (
+    get_logical_counts,
+    get_logical_memory,
+    get_physical_memory,
+    get_physical_counts,
+    has_error,
+    z_stabilizer,
+)
 from .gates import (
     Initialization,
     LogicalMeasurement,
@@ -14,7 +21,10 @@ from .transpiler import (
 )
 
 __all__ = [
-    "get_good_counts",
+    "get_logical_counts",
+    "get_logical_memory",
+    "get_physical_memory",
+    "get_physical_counts",
     "has_error",
     "z_stabilizer",
     "Initialization",

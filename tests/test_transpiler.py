@@ -7,7 +7,7 @@ from qiskit.transpiler import StagedPassManager
 from qiskit_aer import AerSimulator
 
 from qiskit_iceberg_transpiler import Syndrome, get_iceberg_passmanager
-from qiskit_iceberg_transpiler.util import get_good_counts
+from qiskit_iceberg_transpiler.util import get_logical_counts
 
 
 @pytest.fixture(scope="module")
@@ -68,13 +68,13 @@ class TestCircuits:
 
         sampler = Sampler(default_shots=1024)
         result = sampler.run([physical_circuit]).result()[0]
-        counts = get_good_counts(result)
+        counts = get_logical_counts(result)
 
         # Check no samples errored, and that we get the proper ghz state
-        assert sum(counts.values()) == 1024
+        assert counts.shots() == 1024
         assert counts["0000"] != 0
         assert counts["1111"] != 0
-        assert counts["0000"] + counts["1111"] == 1024
+        assert len(counts) == 2
 
         # Check for statistical deviations from the state
         res = stats.chisquare(list(counts.values()))
